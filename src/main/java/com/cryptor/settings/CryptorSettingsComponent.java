@@ -11,6 +11,7 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 import javax.swing.*;
+import java.awt.*;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.util.Objects;
@@ -26,7 +27,9 @@ public class CryptorSettingsComponent {
     private final JBCheckBox proxyAuthCheckBox = new JBCheckBox("Enable Proxy Authentication");
     private final JBTextField proxyUsernameField = new JBTextField();
     private final JBTextField proxyPasswordField = new JBTextField();
-    private final JBCheckBox redForUpCheckBox = new JBCheckBox("Red for Up");
+    private final JRadioButton redForUpRadio = new JRadioButton("Red for Up");
+    private final JRadioButton greenForUpRadio = new JRadioButton("Green for Up");
+    private final ButtonGroup colorSchemeGroup = new ButtonGroup();
     private final JBTextField refreshIntervalField = new JBTextField();
     private final ComboBox<String> refreshUnitComboBox = new ComboBox<>(new String[]{"SECOND", "MINUTE", "HOUR"});
     private final ComboBox<String> customPriceComboBox = new ComboBox<>(new String[]{"USD", "AED", "AFN", "ALL", "AMD",
@@ -82,6 +85,16 @@ public class CryptorSettingsComponent {
             }
         });
 
+        // 设置颜色方案单选按钮组
+        colorSchemeGroup.add(redForUpRadio);
+        colorSchemeGroup.add(greenForUpRadio);
+        redForUpRadio.setSelected(true);
+
+        // 创建颜色方案面板
+        JPanel colorSchemePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        colorSchemePanel.add(redForUpRadio);
+        colorSchemePanel.add(greenForUpRadio);
+
         // 创建主面板
         mainPanel = FormBuilder.createFormBuilder()
                 .addLabeledComponent(new JBLabel("API Key: "), apiKeyField)
@@ -89,7 +102,8 @@ public class CryptorSettingsComponent {
                 .addComponent(new JBLabel("Proxy Settings"))
                 .addComponent(proxyPanel)
                 .addSeparator()
-                .addComponent(redForUpCheckBox)
+                .addComponent(new JBLabel("Color Scheme: "))
+                .addComponent(colorSchemePanel)
                 .addSeparator()
                 .addLabeledComponent(new JBLabel("Refresh Interval: "), refreshIntervalField)
                 .addLabeledComponent(new JBLabel("Refresh Unit: "), refreshUnitComboBox)
@@ -240,11 +254,15 @@ public class CryptorSettingsComponent {
     }
 
     public boolean isRedForUp() {
-        return redForUpCheckBox.isSelected();
+        return redForUpRadio.isSelected();
     }
 
     public void setRedForUp(boolean redForUp) {
-        redForUpCheckBox.setSelected(redForUp);
+        if (redForUp) {
+            redForUpRadio.setSelected(true);
+        } else {
+            greenForUpRadio.setSelected(true);
+        }
     }
 
     public int getRefreshInterval() {

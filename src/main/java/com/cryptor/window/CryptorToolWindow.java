@@ -12,12 +12,14 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
+import com.intellij.ui.JBColor;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.ui.JBUI;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -69,6 +71,10 @@ public final class CryptorToolWindow {
         priceTable.getColumnModel().getColumn(4).setPreferredWidth(100); // 24h Change
         priceTable.getColumnModel().getColumn(5).setPreferredWidth(100); // 7d Change
 
+        // 设置24h Change和7d Change自定义渲染器
+        priceTable.getColumnModel().getColumn(4).setCellRenderer(new ChangeColorRenderer(settings));
+        priceTable.getColumnModel().getColumn(5).setCellRenderer(new ChangeColorRenderer(settings));
+
         // 创建主面板
         mainPanel = new JPanel(new BorderLayout());
         mainPanel.add(toolbar.getComponent(), BorderLayout.NORTH);
@@ -102,7 +108,7 @@ public final class CryptorToolWindow {
         // 添加新数据
         for (CoinPriceData price : prices) {
             String priceText = String.format("$%.2f", price.getPrice());
-            String customPriceText = String.format("%.2f", price.getCustomPrice());
+            String customPriceText = String.format("¤%.2f", price.getCustomPrice());
             String change24hText = String.format("%.2f%%", price.getPercentChange24h());
             String change7dText = String.format("%.2f%%", price.getPercentChange7d());
 
@@ -164,8 +170,9 @@ public final class CryptorToolWindow {
         if (settings == null) {
             return;
         }
-
-        stopAutoRefresh();
+        if (refreshTimer != null) {
+            return;
+        }
         refreshTimer = new Timer();
         refreshTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -173,12 +180,56 @@ public final class CryptorToolWindow {
                 SwingUtilities.invokeLater(() -> refreshData());
             }
         }, 0, settings.getRefreshIntervalInMillis());
+
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("Cryptor.Notifications")
+                .createNotification("StartAutoRefresh Successfully: " + LocalDateTime.now(), NotificationType.INFORMATION)
+                .notify(project);
     }
 
     public void stopAutoRefresh() {
         if (refreshTimer != null) {
             refreshTimer.cancel();
             refreshTimer = null;
+        }
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("Cryptor.Notifications")
+                .createNotification("StopAutoRefresh Successfully: " + LocalDateTime.now(), NotificationType.INFORMATION)
+                .notify(project);
+    }
+
+    /**
+     * 涨跌幅颜色渲染器
+     */
+    private static class ChangeColorRenderer extends DefaultTableCellRenderer {
+        private final CryptorSettings settings;
+
+        public ChangeColorRenderer(CryptorSettings settings) {
+            this.settings = settings;
+        }
+
+        private static final JBColor RED = new JBColor(new Color(255, 59, 48), new Color(255, 99, 88));
+        private static final JBColor GREEN = new JBColor(new Color(50, 205, 50), new Color(100, 255, 100));
+
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+            String text = value != null ? value.toString().replace("%", "") : "0";
+            double val = 0;
+            try {
+                val = Double.parseDouble(text);
+            } catch (Exception ignored) {
+                val = 0;
+            }
+            boolean redForUp = settings.isRedForUp();
+            if (val > 0) {
+                c.setForeground(redForUp ? RED : GREEN); // 红或绿
+            } else if (val < 0) {
+                c.setForeground(redForUp ? GREEN : RED); // 绿或红
+            } else {
+                c.setForeground(JBColor.GRAY);
+            }
+            return c;
         }
     }
 }
