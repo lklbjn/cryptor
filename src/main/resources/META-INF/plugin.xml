@@ -20,7 +20,7 @@
 
     <actions>
         <group id="Cryptor.Toolbar" class="com.intellij.openapi.actionSystem.DefaultActionGroup" popup="false">
-            <add-to-group group-id="Cryptor.Toolbar" anchor="first"/>
+            <add-to-group group-id="MainToolBar" anchor="last"/>
             <action id="Cryptor.StartRefresh" class="com.cryptor.actions.StartAutoRefreshAction" icon="/icons/start.svg"
                     text="Start Auto Refresh" description="Start automatic price refresh"/>
             <separator/>
