@@ -1,6 +1,6 @@
 package com.cryptor.actions;
 
-import com.cryptor.models.CoinData;
+import com.cryptor.model.CoinData;
 import com.cryptor.services.FavoriteCoinsService;
 import com.cryptor.settings.CryptorSettings;
 import com.cryptor.window.CryptorToolWindow;
@@ -14,7 +14,6 @@ import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBTextField;
-import com.intellij.ui.table.JBTable;
 import com.intellij.util.ui.FormBuilder;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -41,7 +40,7 @@ public class AddFavoriteCoinAction extends AnAction {
 
     private static class AddCoinDialog extends DialogWrapper {
         private final JBTextField searchField;
-        private final JBTable resultTable;
+        private final JTable resultTable;
         private final DefaultTableModel tableModel;
         private final OkHttpClient client;
         private final List<CoinData> searchResults;
@@ -96,9 +95,7 @@ public class AddFavoriteCoinAction extends AnAction {
                 }
             };
 
-            resultTable = new JBTable(tableModel);
-            // 设置行高为特定值
-            resultTable.setRowHeight(25);
+            resultTable = new JTable(tableModel);
 
             // 设置表格列宽
             resultTable.getColumnModel().getColumn(0).setPreferredWidth(50);  // ID

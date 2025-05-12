@@ -29,6 +29,19 @@ public class CryptorSettingsComponent {
     private final JBCheckBox redForUpCheckBox = new JBCheckBox("Red for Up");
     private final JBTextField refreshIntervalField = new JBTextField();
     private final ComboBox<String> refreshUnitComboBox = new ComboBox<>(new String[]{"SECOND", "MINUTE", "HOUR"});
+    private final ComboBox<String> customPriceComboBox = new ComboBox<>(new String[]{"USD", "AED", "AFN", "ALL", "AMD",
+            "ANG", "AOA", "ARS", "AUD", "AWG", "AZN", "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB",
+            "BRL", "BSD", "BTN", "BWP", "BYN", "BZD", "CAD", "CDF", "CHF", "CLP", "CNY", "COP", "CRC", "CUP", "CVE",
+            "CZK", "DJF", "DKK", "DOP", "DZD", "EGP", "ERN", "ETB", "EUR", "FJD", "FKP", "FOK", "GBP", "GEL", "GGP",
+            "GHS", "GIP", "GMD", "GNF", "GTQ", "GYD", "HKD", "HNL", "HRK", "HTG", "HUF", "IDR", "ILS", "IMP", "INR",
+            "IQD", "IRR", "ISK", "JEP", "JMD", "JOD", "JPY", "KES", "KGS", "KHR", "KID", "KMF", "KRW", "KWD", "KYD",
+            "KZT", "LAK", "LBP", "LKR", "LRD", "LSL", "LYD", "MAD", "MDL", "MGA", "MKD", "MMK", "MNT", "MOP", "MRU",
+            "MUR", "MVR", "MWK", "MXN", "MYR", "MZN", "NAD", "NGN", "NIO", "NOK", "NPR", "NZD", "OMR", "PAB", "PEN",
+            "PGK", "PHP", "PKR", "PLN", "PYG", "QAR", "RON", "RSD", "RUB", "RWF", "SAR", "SBD", "SCR", "SDG", "SEK",
+            "SGD", "SHP", "SLE", "SLL", "SOS", "SRD", "SSP", "STN", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP",
+            "TRY", "TTD", "TVD", "TWD", "TZS", "UAH", "UGX", "UYU", "UZS", "VES", "VND", "VUV", "WST", "XAF", "XCD",
+            "XCG", "XDR", "XOF", "XPF", "YER", "ZAR", "ZMW", "ZWL"});
+
 
     public CryptorSettingsComponent() {
         // 创建代理认证面板
@@ -80,6 +93,7 @@ public class CryptorSettingsComponent {
                 .addSeparator()
                 .addLabeledComponent(new JBLabel("Refresh Interval: "), refreshIntervalField)
                 .addLabeledComponent(new JBLabel("Refresh Unit: "), refreshUnitComboBox)
+                .addLabeledComponent(new JBLabel("Custom Price: "), customPriceComboBox)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -252,4 +266,12 @@ public class CryptorSettingsComponent {
     public void setRefreshUnit(String unit) {
         refreshUnitComboBox.setSelectedItem(unit);
     }
-} 
+
+    public String getCustomPrice() {
+        return (String) customPriceComboBox.getSelectedItem();
+    }
+
+    public void setCustomPrice(String customPrice) {
+        customPriceComboBox.setSelectedItem(customPrice);
+    }
+}

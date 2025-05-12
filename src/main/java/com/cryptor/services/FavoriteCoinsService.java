@@ -1,6 +1,6 @@
 package com.cryptor.services;
 
-import com.cryptor.models.CoinData;
+import com.cryptor.model.CoinData;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.components.PersistentStateComponent;
 import com.intellij.openapi.components.State;

@@ -1,9 +1,9 @@
 package com.cryptor.service;
 
-import com.cryptor.models.CoinData;
+import com.cryptor.model.CoinData;
+import com.cryptor.model.CoinPriceData;
 import com.cryptor.services.FavoriteCoinsService;
 import com.cryptor.settings.CryptorSettings;
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import okhttp3.OkHttpClient;
@@ -19,8 +19,8 @@ import java.util.concurrent.TimeUnit;
 
 public class CoinMarketCapService {
     private static final String BASE_URL = "https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest";
+    private static final String EXCHANGE_RATE_URL = "https://open.er-api.com/v6/latest/USD";
     private final OkHttpClient client;
-    private final Gson gson;
 
     public CoinMarketCapService() {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder()
@@ -53,7 +53,6 @@ public class CoinMarketCapService {
         }
 
         client = clientBuilder.build();
-        gson = new Gson();
     }
 
     public List<CoinPriceData> getFavoriteCoinsPrices() {
@@ -82,6 +81,24 @@ public class CoinMarketCapService {
             idString.append(coin.getId());
         }
 
+        String customPriceName = settings.getCustomPrice();
+        double customPrice = 1;
+        if (!customPriceName.isEmpty()) {
+            Request request = new Request.Builder()
+                    .url(EXCHANGE_RATE_URL)
+                    .build();
+            try (Response response = client.newCall(request).execute()) {
+                if (response.isSuccessful()) {
+                    assert response.body() != null;
+                    String responseBody = response.body().string();
+                    JsonObject jsonResponse = JsonParser.parseString(responseBody).getAsJsonObject();
+                    JsonObject customPriceData = jsonResponse.getAsJsonObject("rates");
+                    customPrice = customPriceData.get(customPriceName).getAsDouble();
+                }
+            } catch (IOException e) {
+                System.out.println("Failed to fetch exchange rate data: " + e.getMessage());
+            }
+        }
         try {
             Request request = new Request.Builder()
                     .url(BASE_URL + "?id=" + idString)
@@ -92,7 +109,7 @@ public class CoinMarketCapService {
                 if (!response.isSuccessful()) {
                     return new ArrayList<>();
                 }
-
+                assert response.body() != null;
                 String responseBody = response.body().string();
                 JsonObject jsonResponse = JsonParser.parseString(responseBody).getAsJsonObject();
                 JsonObject data = jsonResponse.getAsJsonObject("data");
@@ -102,12 +119,15 @@ public class CoinMarketCapService {
                     JsonObject coinData = data.getAsJsonObject(String.valueOf(coin.getId()));
                     if (coinData != null) {
                         JsonObject quote = coinData.getAsJsonObject("quote").getAsJsonObject("USD");
+                        double price = quote.get("price").getAsDouble();
                         prices.add(new CoinPriceData(
                                 coin.getId(),
                                 coin.getName(),
                                 coin.getSymbol(),
-                                quote.get("price").getAsDouble(),
-                                quote.get("percent_change_24h").getAsDouble()
+                                price,
+                                price * customPrice,
+                                quote.get("percent_change_24h").getAsDouble(),
+                                quote.get("percent_change_7d").getAsDouble()
                         ));
                     }
                 }
@@ -119,39 +139,5 @@ public class CoinMarketCapService {
         }
     }
 
-    public static class CoinPriceData {
-        private final int id;
-        private final String name;
-        private final String symbol;
-        private final double price;
-        private final double percentChange24h;
 
-        public CoinPriceData(int id, String name, String symbol, double price, double percentChange24h) {
-            this.id = id;
-            this.name = name;
-            this.symbol = symbol;
-            this.price = price;
-            this.percentChange24h = percentChange24h;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getSymbol() {
-            return symbol;
-        }
-
-        public double getPrice() {
-            return price;
-        }
-
-        public double getPercentChange24h() {
-            return percentChange24h;
-        }
-    }
 } 

@@ -33,7 +33,8 @@ public class CryptorConfigurable implements Configurable {
                 !settingsComponent.getProxyPassword().equals(settings.getProxyPassword()) ||
                 settingsComponent.isRedForUp() != settings.isRedForUp() ||
                 settingsComponent.getRefreshInterval() != settings.getRefreshInterval() ||
-                !settingsComponent.getRefreshUnit().equals(settings.getRefreshUnit());
+                !settingsComponent.getRefreshUnit().equals(settings.getRefreshUnit()) ||
+                !settingsComponent.getCustomPrice().equals(settings.getCustomPrice());
     }
 
     @Override
@@ -49,6 +50,7 @@ public class CryptorConfigurable implements Configurable {
         settings.setRedForUp(settingsComponent.isRedForUp());
         settings.setRefreshInterval(settingsComponent.getRefreshInterval());
         settings.setRefreshUnit(settingsComponent.getRefreshUnit());
+        settings.setCustomPrice(settingsComponent.getCustomPrice());
     }
 
     @Override
@@ -64,6 +66,7 @@ public class CryptorConfigurable implements Configurable {
         settingsComponent.setRedForUp(settings.isRedForUp());
         settingsComponent.setRefreshInterval(settings.getRefreshInterval());
         settingsComponent.setRefreshUnit(settings.getRefreshUnit());
+        settingsComponent.setCustomPrice(settings.getCustomPrice());
     }
 
     @Override

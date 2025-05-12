@@ -1,43 +1,31 @@
 package com.cryptor.model;
 
 public class CoinData {
-    private String symbol;
-    private String name;
-    private double usdPrice;
-    private double cnyPrice;
-    private double change24h;
-    private double change7d;
+    private final Integer id;
+    private final String name;
+    private final String symbol;
+    private final String slug;
 
-    public CoinData(String symbol, String name, double usdPrice, double cnyPrice, double change24h, double change7d) {
-        this.symbol = symbol;
+    public CoinData(Integer id, String name, String symbol, String slug) {
+        this.id = id;
         this.name = name;
-        this.usdPrice = usdPrice;
-        this.cnyPrice = cnyPrice;
-        this.change24h = change24h;
-        this.change7d = change7d;
+        this.symbol = symbol;
+        this.slug = slug;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public Integer getId() {
+        return id;
     }
 
     public String getName() {
         return name;
     }
 
-    public double getUsdPrice() {
-        return usdPrice;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public double getCnyPrice() {
-        return cnyPrice;
+    public String getSlug() {
+        return slug;
     }
-
-    public double getChange24h() {
-        return change24h;
-    }
-
-    public double getChange7d() {
-        return change7d;
-    }
-} 
+}

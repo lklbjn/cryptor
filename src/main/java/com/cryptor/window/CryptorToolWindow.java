@@ -1,8 +1,8 @@
 package com.cryptor.window;
 
-import com.cryptor.models.CoinData;
+import com.cryptor.model.CoinData;
+import com.cryptor.model.CoinPriceData;
 import com.cryptor.service.CoinMarketCapService;
-import com.cryptor.service.CoinMarketCapService.CoinPriceData;
 import com.cryptor.services.FavoriteCoinsService;
 import com.cryptor.settings.CryptorSettings;
 import com.intellij.notification.NotificationGroupManager;
@@ -19,6 +19,7 @@ import com.intellij.util.ui.JBUI;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -46,9 +47,9 @@ public final class CryptorToolWindow {
                 (ActionGroup) ActionManager.getInstance().getAction("Cryptor.Toolbar"),
                 true
         );
-
+        String customPrice = settings.getCustomPrice();
         // 创建表格
-        String[] columnNames = {"Name", "Symbol", "Price (USD)", "24h Change"};
+        String[] columnNames = {"Name", "Symbol", "Price (USD)", "Price (" + customPrice + ")", "24h Change", "7d Change"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -63,8 +64,10 @@ public final class CryptorToolWindow {
         // 设置列宽
         priceTable.getColumnModel().getColumn(0).setPreferredWidth(150); // Name
         priceTable.getColumnModel().getColumn(1).setPreferredWidth(80);  // Symbol
-        priceTable.getColumnModel().getColumn(2).setPreferredWidth(120); // Price
-        priceTable.getColumnModel().getColumn(3).setPreferredWidth(100); // 24h Change
+        priceTable.getColumnModel().getColumn(2).setPreferredWidth(120); // Price(USD)
+        priceTable.getColumnModel().getColumn(3).setPreferredWidth(120); // Price(Custom)
+        priceTable.getColumnModel().getColumn(4).setPreferredWidth(100); // 24h Change
+        priceTable.getColumnModel().getColumn(5).setPreferredWidth(100); // 7d Change
 
         // 创建主面板
         mainPanel = new JPanel(new BorderLayout());
@@ -83,6 +86,11 @@ public final class CryptorToolWindow {
         if (settings == null) {
             return;
         }
+        String customPrice = settings.getCustomPrice();
+        if (!tableModel.getColumnName(3).equals("Price (" + customPrice + ")")) {
+            // 通知表格模型数据已更改
+            updateCustomPriceColumn(customPrice);
+        }
         List<CoinData> favoriteCoins = favoriteCoinsService.getFavoriteCoins();
         if (favoriteCoins.isEmpty()) {
             tableModel.setRowCount(0);
@@ -93,20 +101,62 @@ public final class CryptorToolWindow {
         tableModel.setRowCount(0);
         // 添加新数据
         for (CoinPriceData price : prices) {
-            String changeText = String.format("%.2f%%", price.getPercentChange24h());
             String priceText = String.format("$%.2f", price.getPrice());
+            String customPriceText = String.format("%.2f", price.getCustomPrice());
+            String change24hText = String.format("%.2f%%", price.getPercentChange24h());
+            String change7dText = String.format("%.2f%%", price.getPercentChange7d());
 
             tableModel.addRow(new Object[]{
                     price.getName(),
                     price.getSymbol(),
                     priceText,
-                    changeText
+                    customPriceText,
+                    change24hText,
+                    change7dText
             });
         }
 
         NotificationGroupManager.getInstance()
                 .getNotificationGroup("Cryptor.Notifications")
-                .createNotification("RefreshData Successfully", NotificationType.INFORMATION)
+                .createNotification("RefreshData Successfully: " + LocalDateTime.now(), NotificationType.INFORMATION)
+                .notify(project);
+    }
+
+    private void updateCustomPriceColumn(String newCustomPrice) {
+        if (settings == null) {
+            return;
+        }
+
+        // 1. 保存当前表格数据
+        Object[][] currentData = new Object[tableModel.getRowCount()][tableModel.getColumnCount()];
+        for (int row = 0; row < tableModel.getRowCount(); row++) {
+            for (int col = 0; col < tableModel.getColumnCount(); col++) {
+                currentData[row][col] = tableModel.getValueAt(row, col);
+            }
+        }
+
+        // 2. 创建新的列名数组
+        String[] columnNames = {"Name", "Symbol", "Price (USD)", "Price (" + newCustomPrice + ")", "24h Change", "7d Change"};
+
+        // 3. 清空表格
+        tableModel.setRowCount(0);
+
+        // 4. 设置新的列名
+        for (int i = 0; i < columnNames.length; i++) {
+            tableModel.setColumnIdentifiers(columnNames);
+        }
+
+        // 5. 恢复表格数据
+        for (Object[] rowData : currentData) {
+            tableModel.addRow(rowData);
+        }
+
+        // 6. 通知表格模型数据已更改
+        tableModel.fireTableStructureChanged();
+
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("Cryptor.Notifications")
+                .createNotification("CustomPrice Changed: " + LocalDateTime.now(), NotificationType.INFORMATION)
                 .notify(project);
     }
 

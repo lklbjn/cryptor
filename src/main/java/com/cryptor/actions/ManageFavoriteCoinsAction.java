@@ -1,6 +1,6 @@
 package com.cryptor.actions;
 
-import com.cryptor.models.CoinData;
+import com.cryptor.model.CoinData;
 import com.cryptor.services.FavoriteCoinsService;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
