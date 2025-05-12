@@ -2,8 +2,26 @@
 <idea-plugin>
     <id>com.cryptor</id>
     <name>Cryptor</name>
-    <vendor>Cryptor</vendor>
-    <description>Cryptocurrency price tracker for IntelliJ IDEA</description>
+    <vendor email="lklbjn12138@gmail.com" url="https://github.com/lklbjn/cryptor">>WBZ</vendor>
+    <description><![CDATA[
+        Cryptor is a powerful cryptocurrency price tracker plugin for IntelliJ IDEA.
+        Features:
+        <ul>
+            <li>Real-time cryptocurrency price tracking</li>
+            <li>Favorite coins management</li>
+            <li>Auto-refresh functionality</li>
+            <li>Customizable settings</li>
+        </ul>
+    ]]></description>
+    <change-notes><![CDATA[
+        Initial release:
+        <ul>
+            <li>Basic cryptocurrency price tracking</li>
+            <li>Favorite coins management</li>
+            <li>Auto-refresh functionality</li>
+            <li>Settings configuration</li>
+        </ul>
+    ]]></change-notes>
 
     <depends>com.intellij.modules.platform</depends>
 
