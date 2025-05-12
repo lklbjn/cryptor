@@ -188,7 +188,7 @@ public class AddFavoriteCoinAction extends AnAction {
             if (project != null) {
                 CryptorToolWindow toolWindow = project.getService(CryptorToolWindow.class);
                 if (toolWindow != null) {
-                    toolWindow.startAutoRefresh();
+                    toolWindow.refreshData();
                 }
             }
         }

@@ -2,8 +2,10 @@ package com.cryptor.actions;
 
 import com.cryptor.model.CoinData;
 import com.cryptor.services.FavoriteCoinsService;
+import com.cryptor.window.CryptorToolWindow;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.util.ui.FormBuilder;
@@ -13,9 +15,10 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class ManageFavoriteCoinsAction extends AnAction {
+
     @Override
     public void actionPerformed(AnActionEvent e) {
-        ManageFavoriteCoinsDialog dialog = new ManageFavoriteCoinsDialog();
+        ManageFavoriteCoinsDialog dialog = new ManageFavoriteCoinsDialog(e.getProject());
         dialog.show();
     }
 
@@ -23,11 +26,13 @@ public class ManageFavoriteCoinsAction extends AnAction {
         private final JTable favoriteTable;
         private final DefaultTableModel tableModel;
         private final FavoriteCoinsService favoriteCoinsService;
+        private final Project project;
 
-        public ManageFavoriteCoinsDialog() {
+
+        public ManageFavoriteCoinsDialog(Project project) {
             super(true);
             setTitle("Manage Favorite Coins");
-
+            this.project = project;
             favoriteCoinsService = FavoriteCoinsService.getInstance();
 
             String[] columnNames = {"ID", "Name", "Symbol", "Slug", "Action"};
@@ -60,11 +65,11 @@ public class ManageFavoriteCoinsAction extends AnAction {
             tableModel.setRowCount(0);
             for (CoinData coin : favoriteCoinsService.getFavoriteCoins()) {
                 tableModel.addRow(new Object[]{
-                    coin.getId(),
-                    coin.getName(),
-                    coin.getSymbol(),
-                    coin.getSlug(),
-                    "Remove"
+                        coin.getId(),
+                        coin.getName(),
+                        coin.getSymbol(),
+                        coin.getSlug(),
+                        "Remove"
                 });
             }
         }
@@ -88,9 +93,21 @@ public class ManageFavoriteCoinsAction extends AnAction {
 
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value,
-                    boolean isSelected, boolean hasFocus, int row, int column) {
+                                                           boolean isSelected, boolean hasFocus, int row, int column) {
                 setText((value == null) ? "" : value.toString());
                 return this;
+            }
+        }
+
+        @Override
+        protected void doOKAction() {
+            super.doOKAction();
+            // 关闭对话框后自动刷新价格显示
+            if (project != null) {
+                CryptorToolWindow toolWindow = project.getService(CryptorToolWindow.class);
+                if (toolWindow != null) {
+                    toolWindow.refreshData();
+                }
             }
         }
 
@@ -110,7 +127,7 @@ public class ManageFavoriteCoinsAction extends AnAction {
 
             @Override
             public Component getTableCellEditorComponent(JTable table, Object value,
-                    boolean isSelected, int row, int column) {
+                                                         boolean isSelected, int row, int column) {
                 label = (value == null) ? "" : value.toString();
                 button.setText(label);
                 isPushed = true;
