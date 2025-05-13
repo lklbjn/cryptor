@@ -59,12 +59,12 @@ public final class CryptorToolWindow {
         );
 
         // 创建最后刷新时间标签
-        JPanel refreshPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        JPanel refreshPanel = new JPanel(new BorderLayout());
         JBLabel prefixLabel = new JBLabel("Last Refresh: ");
         lastRefreshLabel = new JBLabel(LocalDateTime.now().format(TIME_FORMATTER));
         lastRefreshLabel.setForeground(GREEN);
-        refreshPanel.add(prefixLabel);
-        refreshPanel.add(lastRefreshLabel);
+        refreshPanel.add(prefixLabel, BorderLayout.WEST);
+        refreshPanel.add(lastRefreshLabel, BorderLayout.EAST);
         refreshPanel.setBorder(JBUI.Borders.empty(0, 5));
 
         // 创建工具栏面板
