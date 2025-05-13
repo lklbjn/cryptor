@@ -78,11 +78,15 @@ If you think this plugin is helpful to you, please feel free to support us throu
 <img src="https://r2.404514.xyz/cloud-paste/donate/OKX_ArbitrumOne.jpg" alt="OKX_ArbitrumOne" width="300">
 <img src="https://r2.404514.xyz/cloud-paste/donate/OKX_Polygon.jpg" alt="OKX_Polygon" width="300">
 </div>
-<br>
+> ArbitrumOne chain address: `0xdc4046e2885aa7858e34685453837c6a1bc5002f`
+  Polygon chain address: `0xdc4046e2885aa7858e34685453837c6a1bc5002f`
+
 <div style="display: flex; justify-content: space-between;">
 <img src="https://r2.404514.xyz/cloud-paste/donate/OKX_TRC20.jpg" alt="OKX_TRC20" width="300">
 <img src="https://r2.404514.xyz/cloud-paste/donate/OKX_OKT.jpg" alt="OKX_OKT" width="300">
 </div>
+> TRC20 chain address: `TQh8KzzzyKER1oV5L2mSUXwACs7v5z9LbX`
+  OKT chain address: `0xdc4046e2885aa7858e34685453837c6a1bc5002f`
 
 ## License
 
