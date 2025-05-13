@@ -38,6 +38,8 @@ public class CryptorSettings implements PersistentStateComponent<CryptorSettings
     // TRY, TTD, TVD, TWD, TZS, UAH, UGX, UYU, UZS, VES, VND, VUV, WST, XAF, XCD, XCG, XDR, XOF, XPF, YER,
     // ZAR, ZMW, ZWL
     private String customPrice = "CNY";
+    private int priceDecimalPlaces = 2;
+    private int changeDecimalPlaces = 2;
 
     public static CryptorSettings getInstance() {
         return ApplicationManager.getApplication().getService(CryptorSettings.class);
@@ -139,6 +141,26 @@ public class CryptorSettings implements PersistentStateComponent<CryptorSettings
 
     public void setCustomPrice(String customPrice) {
         this.customPrice = customPrice;
+    }
+
+    public int getPriceDecimalPlaces() {
+        return priceDecimalPlaces;
+    }
+
+    public void setPriceDecimalPlaces(int priceDecimalPlaces) {
+        if (priceDecimalPlaces >= 0 && priceDecimalPlaces <= 10) {
+            this.priceDecimalPlaces = priceDecimalPlaces;
+        }
+    }
+
+    public int getChangeDecimalPlaces() {
+        return changeDecimalPlaces;
+    }
+
+    public void setChangeDecimalPlaces(int changeDecimalPlaces) {
+        if (changeDecimalPlaces >= 0 && changeDecimalPlaces <= 10) {
+            this.changeDecimalPlaces = changeDecimalPlaces;
+        }
     }
 
     @Override

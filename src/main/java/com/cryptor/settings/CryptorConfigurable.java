@@ -34,7 +34,9 @@ public class CryptorConfigurable implements Configurable {
                 settingsComponent.isRedForUp() != settings.isRedForUp() ||
                 settingsComponent.getRefreshInterval() != settings.getRefreshInterval() ||
                 !settingsComponent.getRefreshUnit().equals(settings.getRefreshUnit()) ||
-                !settingsComponent.getCustomPrice().equals(settings.getCustomPrice());
+                !settingsComponent.getCustomPrice().equals(settings.getCustomPrice()) ||
+                settingsComponent.getPriceDecimalPlaces() != settings.getPriceDecimalPlaces() ||
+                settingsComponent.getChangeDecimalPlaces() != settings.getChangeDecimalPlaces();
     }
 
     @Override
@@ -51,6 +53,8 @@ public class CryptorConfigurable implements Configurable {
         settings.setRefreshInterval(settingsComponent.getRefreshInterval());
         settings.setRefreshUnit(settingsComponent.getRefreshUnit());
         settings.setCustomPrice(settingsComponent.getCustomPrice());
+        settings.setPriceDecimalPlaces(settingsComponent.getPriceDecimalPlaces());
+        settings.setChangeDecimalPlaces(settingsComponent.getChangeDecimalPlaces());
     }
 
     @Override
@@ -67,6 +71,8 @@ public class CryptorConfigurable implements Configurable {
         settingsComponent.setRefreshInterval(settings.getRefreshInterval());
         settingsComponent.setRefreshUnit(settings.getRefreshUnit());
         settingsComponent.setCustomPrice(settings.getCustomPrice());
+        settingsComponent.setPriceDecimalPlaces(settings.getPriceDecimalPlaces());
+        settingsComponent.setChangeDecimalPlaces(settings.getChangeDecimalPlaces());
     }
 
     @Override

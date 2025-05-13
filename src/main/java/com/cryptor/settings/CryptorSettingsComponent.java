@@ -44,7 +44,8 @@ public class CryptorSettingsComponent {
             "SGD", "SHP", "SLE", "SLL", "SOS", "SRD", "SSP", "STN", "SYP", "SZL", "THB", "TJS", "TMT", "TND", "TOP",
             "TRY", "TTD", "TVD", "TWD", "TZS", "UAH", "UGX", "UYU", "UZS", "VES", "VND", "VUV", "WST", "XAF", "XCD",
             "XCG", "XDR", "XOF", "XPF", "YER", "ZAR", "ZMW", "ZWL"});
-
+    private final JBTextField priceDecimalPlacesField = new JBTextField();
+    private final JBTextField changeDecimalPlacesField = new JBTextField();
 
     public CryptorSettingsComponent() {
         // 创建代理认证面板
@@ -85,6 +86,22 @@ public class CryptorSettingsComponent {
             }
         });
 
+        // 设置小数位数输入框只允许输入0-10的整数
+        InputVerifier decimalPlacesVerifier = new InputVerifier() {
+            @Override
+            public boolean verify(JComponent input) {
+                String text = ((JTextField) input).getText();
+                try {
+                    int value = Integer.parseInt(text);
+                    return value >= 0 && value <= 10;
+                } catch (NumberFormatException e) {
+                    return false;
+                }
+            }
+        };
+        priceDecimalPlacesField.setInputVerifier(decimalPlacesVerifier);
+        changeDecimalPlacesField.setInputVerifier(decimalPlacesVerifier);
+
         // 设置颜色方案单选按钮组
         colorSchemeGroup.add(redForUpRadio);
         colorSchemeGroup.add(greenForUpRadio);
@@ -108,6 +125,8 @@ public class CryptorSettingsComponent {
                 .addLabeledComponent(new JBLabel("Refresh Interval: "), refreshIntervalField)
                 .addLabeledComponent(new JBLabel("Refresh Unit: "), refreshUnitComboBox)
                 .addLabeledComponent(new JBLabel("Custom Price: "), customPriceComboBox)
+                .addLabeledComponent(new JBLabel("Price Decimal Places (0-10): "), priceDecimalPlacesField)
+                .addLabeledComponent(new JBLabel("Change Decimal Places (0-10): "), changeDecimalPlacesField)
                 .addComponentFillVertically(new JPanel(), 0)
                 .getPanel();
     }
@@ -291,5 +310,29 @@ public class CryptorSettingsComponent {
 
     public void setCustomPrice(String customPrice) {
         customPriceComboBox.setSelectedItem(customPrice);
+    }
+
+    public int getPriceDecimalPlaces() {
+        try {
+            return Integer.parseInt(priceDecimalPlacesField.getText());
+        } catch (NumberFormatException e) {
+            return 2;
+        }
+    }
+
+    public void setPriceDecimalPlaces(int places) {
+        priceDecimalPlacesField.setText(String.valueOf(places));
+    }
+
+    public int getChangeDecimalPlaces() {
+        try {
+            return Integer.parseInt(changeDecimalPlacesField.getText());
+        } catch (NumberFormatException e) {
+            return 2;
+        }
+    }
+
+    public void setChangeDecimalPlaces(int places) {
+        changeDecimalPlacesField.setText(String.valueOf(places));
     }
 }

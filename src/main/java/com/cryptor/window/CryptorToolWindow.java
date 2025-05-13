@@ -107,10 +107,14 @@ public final class CryptorToolWindow {
         tableModel.setRowCount(0);
         // 添加新数据
         for (CoinPriceData price : prices) {
-            String priceText = String.format("$%.2f", price.getPrice());
-            String customPriceText = String.format("¤%.2f", price.getCustomPrice());
-            String change24hText = String.format("%.2f%%", price.getPercentChange24h());
-            String change7dText = String.format("%.2f%%", price.getPercentChange7d());
+            String priceFormat = "$%." + settings.getPriceDecimalPlaces() + "f";
+            String customPriceFormat = "¤%." + settings.getPriceDecimalPlaces() + "f";
+            String changeFormat = "%." + settings.getChangeDecimalPlaces() + "f%%";
+            
+            String priceText = String.format(priceFormat, price.getPrice());
+            String customPriceText = String.format(customPriceFormat, price.getCustomPrice());
+            String change24hText = String.format(changeFormat, price.getPercentChange24h());
+            String change7dText = String.format(changeFormat, price.getPercentChange7d());
 
             tableModel.addRow(new Object[]{
                     price.getName(),
