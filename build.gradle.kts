@@ -3,8 +3,8 @@ plugins {
     id("org.jetbrains.intellij") version "1.16.1"
 }
 
-group = "com.cryptor"
-version = "1.0-SNAPSHOT"
+group = "io.github.lklbjn.cryptor"
+version = "1.0.0"
 
 repositories {
     mavenCentral()
