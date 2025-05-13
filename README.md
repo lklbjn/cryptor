@@ -62,6 +62,20 @@ Cryptor is an IntelliJ IDEA plugin that allows you to track cryptocurrency price
 
 Contributions are welcome! Please feel free to submit a Pull Request.
 
+## Donate
+
+If you think this plugin is helpful to you, please feel free to support us through the following ways:
+
+### Fiatcurrency
+![支付宝](https://r2.404514.xyz/cloud-paste/donate/alipay.png)
+![微信支付](https://r2.404514.xyz/cloud-paste/donate/wechat.png)
+
+### Cryptocurrency
+![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_ArbitrumOne.jpg)
+![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_Polygon.jpg)
+![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_TRC20.jpg)
+![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_OKT.jpg)
+
 ## License
 
 This project is licensed under the MIT License - see the LICENSE file for details. 

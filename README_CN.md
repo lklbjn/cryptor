@@ -60,6 +60,20 @@ Cryptor 是一个 IntelliJ IDEA 插件，让您可以直接在 IDE 中追踪加�
 
 欢迎贡献代码！请随时提交 Pull Request。
 
+## Donate
+
+如果您觉得这个插件对您有帮助，欢迎通过以下方式支持我们：
+
+### 法币
+![支付宝](https://r2.404514.xyz/cloud-paste/donate/alipay.png)
+![微信支付](https://r2.404514.xyz/cloud-paste/donate/wechat.png)
+
+### 加密货币
+![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_ArbitrumOne.jpg)
+![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_Polygon.jpg)
+![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_TRC20.jpg)
+![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_OKT.jpg)
+
 ## 许可证
 
 本项目采用 MIT 许可证 - 详见 LICENSE 文件。 
