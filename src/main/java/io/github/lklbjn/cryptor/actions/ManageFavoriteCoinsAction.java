@@ -1,18 +1,21 @@
 package io.github.lklbjn.cryptor.actions;
 
-import io.github.lklbjn.cryptor.model.CoinData;
-import io.github.lklbjn.cryptor.services.FavoriteCoinsService;
-import io.github.lklbjn.cryptor.window.CryptorToolWindow;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.util.ui.FormBuilder;
+import io.github.lklbjn.cryptor.model.CoinData;
+import io.github.lklbjn.cryptor.services.FavoriteCoinsService;
+import io.github.lklbjn.cryptor.window.CryptorToolWindow;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 
 public class ManageFavoriteCoinsAction extends AnAction {
 
@@ -27,7 +30,7 @@ public class ManageFavoriteCoinsAction extends AnAction {
         private final DefaultTableModel tableModel;
         private final FavoriteCoinsService favoriteCoinsService;
         private final Project project;
-
+        private int dragSourceIndex = -1;
 
         public ManageFavoriteCoinsDialog(Project project) {
             super(true);
@@ -57,6 +60,45 @@ public class ManageFavoriteCoinsAction extends AnAction {
 
             // 设置表格行高
             favoriteTable.setRowHeight(30);
+
+            // 添加拖拽排序功能
+            favoriteTable.setDragEnabled(true);
+            favoriteTable.setDropMode(DropMode.INSERT_ROWS);
+            favoriteTable.setTransferHandler(new TransferHandler() {
+                @Override
+                public int getSourceActions(JComponent c) {
+                    return MOVE;
+                }
+
+                @Override
+                protected Transferable createTransferable(JComponent c) {
+                    JTable table = (JTable) c;
+                    dragSourceIndex = table.getSelectedRow();
+                    return new StringSelection(String.valueOf(dragSourceIndex));
+                }
+
+                @Override
+                public boolean canImport(TransferSupport support) {
+                    return support.isDataFlavorSupported(DataFlavor.stringFlavor);
+                }
+
+                @Override
+                public boolean importData(TransferSupport support) {
+                    if (!canImport(support)) {
+                        return false;
+                    }
+
+                    JTable.DropLocation dl = (JTable.DropLocation) support.getDropLocation();
+                    int dropIndex = dl.getRow();
+
+                    if (dragSourceIndex != -1 && dropIndex != -1) {
+                        favoriteCoinsService.moveCoin(dragSourceIndex, dropIndex);
+                        loadFavoriteCoins();
+                        return true;
+                    }
+                    return false;
+                }
+            });
 
             // 加载收藏的币种
             loadFavoriteCoins();

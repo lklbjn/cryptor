@@ -14,7 +14,17 @@
         </ul>
     ]]></description>
     <change-notes><![CDATA[
-        Initial release:
+        1.0.2:
+        <ul>
+            <li>Add the drag-and-drop sort function based on ManageFavoriteCoins</li>
+        </ul>
+        1.0.1:
+        <ul>
+            <li>Update plugin logo</li>
+            <li>Add Last Refresh Time</li>
+            <li>Customizable Price and ChangePercentage decimal places</li>
+        </ul>
+        1.0.0:
         <ul>
             <li>Basic cryptocurrency price tracking</li>
             <li>Favorite coins management</li>

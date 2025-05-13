@@ -24,7 +24,7 @@ public class FavoriteCoinsService implements PersistentStateComponent<FavoriteCo
     }
 
     public List<CoinData> getFavoriteCoins() {
-        return favoriteCoins;
+        return new ArrayList<>(favoriteCoins);
     }
 
     public void addFavoriteCoin(CoinData coin) {
@@ -39,6 +39,19 @@ public class FavoriteCoinsService implements PersistentStateComponent<FavoriteCo
 
     public boolean isFavorite(CoinData coin) {
         return favoriteCoins.contains(coin);
+    }
+
+    public void moveCoin(int fromIndex, int toIndex) {
+        if (fromIndex >= 0 && fromIndex < favoriteCoins.size() && 
+            toIndex >= 0 && toIndex < favoriteCoins.size()) {
+            CoinData coin = favoriteCoins.remove(fromIndex);
+            favoriteCoins.add(toIndex, coin);
+        }
+    }
+
+    public void reorderCoins(List<CoinData> newOrder) {
+        favoriteCoins.clear();
+        favoriteCoins.addAll(newOrder);
     }
 
     @Nullable
