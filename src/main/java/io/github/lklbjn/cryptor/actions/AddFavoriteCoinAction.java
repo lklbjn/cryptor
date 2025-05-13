@@ -108,6 +108,9 @@ public class AddFavoriteCoinAction extends AnAction {
             resultTable.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
             resultTable.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
 
+            // 设置表格行高
+            resultTable.setRowHeight(30);
+
             init();
         }
 
@@ -149,7 +152,9 @@ public class AddFavoriteCoinAction extends AnAction {
                                 coin.get("slug").getAsString()
                             );
                             searchResults.add(coinData);
-                            String buttonText = favoriteCoinsService.isFavorite(coinData) ? "Remove" : "Add";
+                            // 检查货币是否已经在收藏列表中
+                            boolean isFavorite = favoriteCoinsService.isFavorite(coinData);
+                            String buttonText = isFavorite ? "Remove" : "Add";
                             tableModel.addRow(new Object[]{
                                 coinData.getId(),
                                 coinData.getName(),

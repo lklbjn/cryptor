@@ -55,6 +55,9 @@ public class ManageFavoriteCoinsAction extends AnAction {
             favoriteTable.getColumnModel().getColumn(4).setCellRenderer(new ButtonRenderer());
             favoriteTable.getColumnModel().getColumn(4).setCellEditor(new ButtonEditor(new JCheckBox()));
 
+            // 设置表格行高
+            favoriteTable.setRowHeight(30);
+
             // 加载收藏的币种
             loadFavoriteCoins();
 

@@ -41,6 +41,10 @@ public final class CryptorToolWindow {
     private final JBLabel lastRefreshLabel;
     private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+
+    private static final JBColor RED = new JBColor(new Color(255, 59, 48), new Color(255, 99, 88));
+    private static final JBColor GREEN = new JBColor(new Color(50, 205, 50), new Color(100, 255, 100));
+
     public CryptorToolWindow(Project project) {
         this.project = project;
         this.settings = CryptorSettings.getInstance();
@@ -55,13 +59,18 @@ public final class CryptorToolWindow {
         );
 
         // 创建最后刷新时间标签
-        lastRefreshLabel = new JBLabel("Last Refresh: " + LocalDateTime.now().format(TIME_FORMATTER));
-        lastRefreshLabel.setBorder(JBUI.Borders.empty(0, 5));
+        JPanel refreshPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        JBLabel prefixLabel = new JBLabel("Last Refresh: ");
+        lastRefreshLabel = new JBLabel(LocalDateTime.now().format(TIME_FORMATTER));
+        lastRefreshLabel.setForeground(GREEN);
+        refreshPanel.add(prefixLabel);
+        refreshPanel.add(lastRefreshLabel);
+        refreshPanel.setBorder(JBUI.Borders.empty(0, 5));
 
         // 创建工具栏面板
         JPanel toolbarPanel = new JPanel(new BorderLayout());
         toolbarPanel.add(toolbar.getComponent(), BorderLayout.WEST);
-        toolbarPanel.add(lastRefreshLabel, BorderLayout.EAST);
+        toolbarPanel.add(refreshPanel, BorderLayout.EAST);
 
         String customPrice = settings.getCustomPrice();
         // 创建表格
@@ -142,7 +151,7 @@ public final class CryptorToolWindow {
 
         // 更新最后刷新时间
         LocalDateTime now = LocalDateTime.now();
-        lastRefreshLabel.setText("Last Refresh: " + now.format(TIME_FORMATTER));
+        lastRefreshLabel.setText(now.format(TIME_FORMATTER));
 
         NotificationGroupManager.getInstance()
                 .getNotificationGroup("Cryptor.Notifications")
@@ -237,8 +246,6 @@ public final class CryptorToolWindow {
             this.settings = settings;
         }
 
-        private static final JBColor RED = new JBColor(new Color(255, 59, 48), new Color(255, 99, 88));
-        private static final JBColor GREEN = new JBColor(new Color(50, 205, 50), new Color(100, 255, 100));
 
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {

@@ -1,5 +1,7 @@
 package io.github.lklbjn.cryptor.model;
 
+import java.util.Objects;
+
 public class CoinData {
     private final Integer id;
     private final String name;
@@ -27,5 +29,22 @@ public class CoinData {
 
     public String getSlug() {
         return slug;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        CoinData coinData = (CoinData) o;
+        return Objects.equals(id, coinData.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
