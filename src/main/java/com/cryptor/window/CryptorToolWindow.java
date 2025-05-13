@@ -64,7 +64,7 @@ public final class CryptorToolWindow {
         priceTable.setIntercellSpacing(JBUI.emptySize());
 
         // 设置列宽
-        priceTable.getColumnModel().getColumn(0).setPreferredWidth(150); // Name
+        priceTable.getColumnModel().getColumn(0).setPreferredWidth(130); // Name
         priceTable.getColumnModel().getColumn(1).setPreferredWidth(80);  // Symbol
         priceTable.getColumnModel().getColumn(2).setPreferredWidth(120); // Price(USD)
         priceTable.getColumnModel().getColumn(3).setPreferredWidth(120); // Price(Custom)
@@ -168,6 +168,13 @@ public final class CryptorToolWindow {
 
     public void startAutoRefresh() {
         if (settings == null) {
+            return;
+        }
+        if (settings.getApiKey() == null || settings.getApiKey().isEmpty()) {
+            NotificationGroupManager.getInstance()
+                    .getNotificationGroup("Cryptor.Notifications")
+                    .createNotification("Please Set ApiKey First", NotificationType.WARNING)
+                    .notify(project);
             return;
         }
         if (refreshTimer != null) {

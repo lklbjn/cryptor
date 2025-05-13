@@ -2,7 +2,7 @@
 <idea-plugin>
     <id>com.cryptor</id>
     <name>Cryptor</name>
-    <vendor email="lklbjn12138@gmail.com" url="https://github.com/lklbjn/cryptor">>WBZ</vendor>
+    <vendor email="lklbjn12138@gmail.com" url="https://github.com/lklbjn/cryptor">Binzer</vendor>
     <description><![CDATA[
         Cryptor is a powerful cryptocurrency price tracker plugin for IntelliJ IDEA.
         Features:
@@ -28,7 +28,7 @@
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Cryptor" secondary="true" icon="/icons/plugin.svg" anchor="right"
                     factoryClass="com.cryptor.window.CryptorToolWindowFactory"/>
-        <applicationConfigurable parentId="tools" instance="com.cryptor.settings.CryptorConfigurable"
+        <applicationConfigurable instance="com.cryptor.settings.CryptorConfigurable"
                                  id="com.cryptor.settings.CryptorConfigurable"
                                  displayName="Cryptor Settings"/>
         <applicationService serviceImplementation="com.cryptor.settings.CryptorSettings"/>
