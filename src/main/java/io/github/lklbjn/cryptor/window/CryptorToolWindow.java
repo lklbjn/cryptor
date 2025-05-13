@@ -1,10 +1,5 @@
 package io.github.lklbjn.cryptor.window;
 
-import io.github.lklbjn.cryptor.model.CoinData;
-import io.github.lklbjn.cryptor.model.CoinPriceData;
-import io.github.lklbjn.cryptor.service.CoinMarketCapService;
-import io.github.lklbjn.cryptor.services.FavoriteCoinsService;
-import io.github.lklbjn.cryptor.settings.CryptorSettings;
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.ActionGroup;
@@ -13,15 +8,22 @@ import com.intellij.openapi.actionSystem.ActionToolbar;
 import com.intellij.openapi.components.Service;
 import com.intellij.openapi.project.Project;
 import com.intellij.ui.JBColor;
+import com.intellij.ui.components.JBLabel;
 import com.intellij.ui.components.JBScrollPane;
 import com.intellij.ui.table.JBTable;
 import com.intellij.util.ui.JBUI;
+import io.github.lklbjn.cryptor.model.CoinData;
+import io.github.lklbjn.cryptor.model.CoinPriceData;
+import io.github.lklbjn.cryptor.service.CoinMarketCapService;
+import io.github.lklbjn.cryptor.services.FavoriteCoinsService;
+import io.github.lklbjn.cryptor.settings.CryptorSettings;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,6 +38,8 @@ public final class CryptorToolWindow {
     private Timer refreshTimer;
     private final CryptorSettings settings;
     private final FavoriteCoinsService favoriteCoinsService;
+    private final JBLabel lastRefreshLabel;
+    private static final DateTimeFormatter TIME_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public CryptorToolWindow(Project project) {
         this.project = project;
@@ -49,6 +53,16 @@ public final class CryptorToolWindow {
                 (ActionGroup) ActionManager.getInstance().getAction("Cryptor.Toolbar"),
                 true
         );
+
+        // 创建最后刷新时间标签
+        lastRefreshLabel = new JBLabel("Last Refresh: " + LocalDateTime.now().format(TIME_FORMATTER));
+        lastRefreshLabel.setBorder(JBUI.Borders.empty(0, 5));
+
+        // 创建工具栏面板
+        JPanel toolbarPanel = new JPanel(new BorderLayout());
+        toolbarPanel.add(toolbar.getComponent(), BorderLayout.WEST);
+        toolbarPanel.add(lastRefreshLabel, BorderLayout.EAST);
+
         String customPrice = settings.getCustomPrice();
         // 创建表格
         String[] columnNames = {"Name", "Symbol", "Price (USD)", "Price (" + customPrice + ")", "24h Change", "7d Change"};
@@ -77,7 +91,7 @@ public final class CryptorToolWindow {
 
         // 创建主面板
         mainPanel = new JPanel(new BorderLayout());
-        mainPanel.add(toolbar.getComponent(), BorderLayout.NORTH);
+        mainPanel.add(toolbarPanel, BorderLayout.NORTH);
         mainPanel.add(new JBScrollPane(priceTable), BorderLayout.CENTER);
 
         // 初始加载数据
@@ -110,7 +124,7 @@ public final class CryptorToolWindow {
             String priceFormat = "$%." + settings.getPriceDecimalPlaces() + "f";
             String customPriceFormat = "¤%." + settings.getPriceDecimalPlaces() + "f";
             String changeFormat = "%." + settings.getChangeDecimalPlaces() + "f%%";
-            
+
             String priceText = String.format(priceFormat, price.getPrice());
             String customPriceText = String.format(customPriceFormat, price.getCustomPrice());
             String change24hText = String.format(changeFormat, price.getPercentChange24h());
@@ -126,9 +140,13 @@ public final class CryptorToolWindow {
             });
         }
 
+        // 更新最后刷新时间
+        LocalDateTime now = LocalDateTime.now();
+        lastRefreshLabel.setText("Last Refresh: " + now.format(TIME_FORMATTER));
+
         NotificationGroupManager.getInstance()
                 .getNotificationGroup("Cryptor.Notifications")
-                .createNotification("RefreshData Successfully: " + LocalDateTime.now(), NotificationType.INFORMATION)
+                .createNotification("RefreshData Successfully: " + now, NotificationType.INFORMATION)
                 .notify(project);
     }
 
