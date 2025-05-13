@@ -67,14 +67,22 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 If you think this plugin is helpful to you, please feel free to support us through the following ways:
 
 ### Fiatcurrency
-![支付宝](https://r2.404514.xyz/cloud-paste/donate/alipay.png)
-![微信支付](https://r2.404514.xyz/cloud-paste/donate/wechat.png)
+
+<div style="display: flex; justify-content: space-between;">
+<img src="https://r2.404514.xyz/cloud-paste/donate/alipay.png" alt="alipay" width="300">
+<img src="https://r2.404514.xyz/cloud-paste/donate/wechat.png" alt="wechat" width="300">
+</div>
 
 ### Cryptocurrency
-![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_ArbitrumOne.jpg)
-![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_Polygon.jpg)
-![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_TRC20.jpg)
-![USDT](https://r2.404514.xyz/cloud-paste/donate/OKX_OKT.jpg)
+<div style="display: flex; justify-content: space-between;">
+<img src="https://r2.404514.xyz/cloud-paste/donate/OKX_ArbitrumOne.jpg" alt="OKX_ArbitrumOne" width="300">
+<img src="https://r2.404514.xyz/cloud-paste/donate/OKX_Polygon.jpg" alt="OKX_Polygon" width="300">
+</div>
+<br>
+<div style="display: flex; justify-content: space-between;">
+<img src="https://r2.404514.xyz/cloud-paste/donate/OKX_TRC20.jpg" alt="OKX_TRC20" width="300">
+<img src="https://r2.404514.xyz/cloud-paste/donate/OKX_OKT.jpg" alt="OKX_OKT" width="300">
+</div>
 
 ## License
 
