@@ -1,4 +1,4 @@
-package com.cryptor.model;
+package io.github.lklbjn.cryptor.model;
 
 public class CoinPriceData {
     private final Integer id;

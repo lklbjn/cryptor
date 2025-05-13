@@ -1,9 +1,9 @@
-package com.cryptor.service;
+package io.github.lklbjn.cryptor.service;
 
-import com.cryptor.model.CoinData;
-import com.cryptor.model.CoinPriceData;
-import com.cryptor.services.FavoriteCoinsService;
-import com.cryptor.settings.CryptorSettings;
+import io.github.lklbjn.cryptor.model.CoinData;
+import io.github.lklbjn.cryptor.model.CoinPriceData;
+import io.github.lklbjn.cryptor.services.FavoriteCoinsService;
+import io.github.lklbjn.cryptor.settings.CryptorSettings;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import okhttp3.OkHttpClient;

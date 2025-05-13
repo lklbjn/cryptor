@@ -1,13 +1,13 @@
-package com.cryptor.actions;
+package io.github.lklbjn.cryptor.actions;
 
+import io.github.lklbjn.cryptor.window.CryptorToolWindow;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowManager;
-import com.cryptor.window.CryptorToolWindow;
 
-public class RefreshAction extends AnAction {
+public class StartAutoRefreshAction extends AnAction {
     @Override
     public void actionPerformed(AnActionEvent e) {
         Project project = e.getProject();
@@ -21,7 +21,7 @@ public class RefreshAction extends AnAction {
         // 获取CryptorToolWindow实例
         CryptorToolWindow cryptorToolWindow = project.getService(CryptorToolWindow.class);
         if (cryptorToolWindow != null) {
-            cryptorToolWindow.refreshData();
+            cryptorToolWindow.startAutoRefresh();
         }
     }
 } 

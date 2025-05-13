@@ -1,8 +1,8 @@
-package com.cryptor.actions;
+package io.github.lklbjn.cryptor.actions;
 
-import com.cryptor.model.CoinData;
-import com.cryptor.services.FavoriteCoinsService;
-import com.cryptor.window.CryptorToolWindow;
+import io.github.lklbjn.cryptor.model.CoinData;
+import io.github.lklbjn.cryptor.services.FavoriteCoinsService;
+import io.github.lklbjn.cryptor.window.CryptorToolWindow;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;

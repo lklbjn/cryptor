@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <idea-plugin>
-    <id>com.cryptor</id>
+    <id>io.github.lklbjn.cryptor</id>
     <name>Cryptor</name>
     <vendor email="lklbjn12138@gmail.com" url="https://github.com/lklbjn/cryptor">Binzer</vendor>
     <description><![CDATA[
@@ -27,30 +27,30 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <toolWindow id="Cryptor" secondary="true" icon="/icons/plugin.svg" anchor="right"
-                    factoryClass="com.cryptor.window.CryptorToolWindowFactory"/>
-        <applicationConfigurable instance="com.cryptor.settings.CryptorConfigurable"
-                                 id="com.cryptor.settings.CryptorConfigurable"
+                    factoryClass="io.github.lklbjn.cryptor.window.CryptorToolWindowFactory"/>
+        <applicationConfigurable instance="io.github.lklbjn.cryptor.settings.CryptorConfigurable"
+                                 id="io.github.lklbjn.cryptor.settings.CryptorConfigurable"
                                  displayName="Cryptor Settings"/>
-        <applicationService serviceImplementation="com.cryptor.settings.CryptorSettings"/>
-        <applicationService serviceImplementation="com.cryptor.services.FavoriteCoinsService"/>
+        <applicationService serviceImplementation="io.github.lklbjn.cryptor.settings.CryptorSettings"/>
+        <applicationService serviceImplementation="io.github.lklbjn.cryptor.services.FavoriteCoinsService"/>
         <notificationGroup displayType="BALLOON" id="Cryptor.Notifications"/>
     </extensions>
 
     <actions>
         <group id="Cryptor.Toolbar" class="com.intellij.openapi.actionSystem.DefaultActionGroup" popup="false">
             <add-to-group group-id="MainToolBar" anchor="last"/>
-            <action id="Cryptor.StartRefresh" class="com.cryptor.actions.StartAutoRefreshAction" icon="/icons/start.svg"
+            <action id="Cryptor.StartRefresh" class="io.github.lklbjn.cryptor.actions.StartAutoRefreshAction" icon="/icons/start.svg"
                     text="Start Auto Refresh" description="Start automatic price refresh"/>
             <separator/>
-            <action id="Cryptor.AddFavoriteCoin" class="com.cryptor.actions.AddFavoriteCoinAction" icon="/icons/add.svg"
+            <action id="Cryptor.AddFavoriteCoin" class="io.github.lklbjn.cryptor.actions.AddFavoriteCoinAction" icon="/icons/add.svg"
                     text="Add Favorite Coin" description="Add a cryptocurrency to favorites"/>
-            <action id="Cryptor.ManageFavoriteCoins" class="com.cryptor.actions.ManageFavoriteCoinsAction"
+            <action id="Cryptor.ManageFavoriteCoins" class="io.github.lklbjn.cryptor.actions.ManageFavoriteCoinsAction"
                     icon="/icons/manage.svg"
                     text="Manage Favorite Coins" description="Manage favorite cryptocurrencies"/>
             <separator/>
-            <action id="Cryptor.Refresh" class="com.cryptor.actions.RefreshAction" icon="/icons/refresh.svg"
+            <action id="Cryptor.Refresh" class="io.github.lklbjn.cryptor.actions.RefreshAction" icon="/icons/refresh.svg"
                     text="Refresh" description="Refresh cryptocurrency prices"/>
-            <action id="Cryptor.StopRefresh" class="com.cryptor.actions.StopAutoRefreshAction" icon="/icons/stop.svg"
+            <action id="Cryptor.StopRefresh" class="io.github.lklbjn.cryptor.actions.StopAutoRefreshAction" icon="/icons/stop.svg"
                     text="Stop Auto Refresh" description="Stop automatic price refresh"/>
         </group>
     </actions>

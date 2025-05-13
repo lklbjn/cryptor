@@ -1,4 +1,4 @@
-package com.cryptor.settings;
+package io.github.lklbjn.cryptor.settings;
 
 import com.intellij.openapi.options.Configurable;
 import org.jetbrains.annotations.Nls;

@@ -1,4 +1,4 @@
-package com.cryptor.settings;
+package io.github.lklbjn.cryptor.settings;
 
 import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.Messages;

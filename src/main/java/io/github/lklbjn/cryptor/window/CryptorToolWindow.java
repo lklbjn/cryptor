@@ -1,10 +1,10 @@
-package com.cryptor.window;
+package io.github.lklbjn.cryptor.window;
 
-import com.cryptor.model.CoinData;
-import com.cryptor.model.CoinPriceData;
-import com.cryptor.service.CoinMarketCapService;
-import com.cryptor.services.FavoriteCoinsService;
-import com.cryptor.settings.CryptorSettings;
+import io.github.lklbjn.cryptor.model.CoinData;
+import io.github.lklbjn.cryptor.model.CoinPriceData;
+import io.github.lklbjn.cryptor.service.CoinMarketCapService;
+import io.github.lklbjn.cryptor.services.FavoriteCoinsService;
+import io.github.lklbjn.cryptor.settings.CryptorSettings;
 import com.intellij.notification.NotificationGroupManager;
 import com.intellij.notification.NotificationType;
 import com.intellij.openapi.actionSystem.ActionGroup;
